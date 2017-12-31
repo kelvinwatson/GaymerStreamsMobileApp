@@ -6,6 +6,7 @@ class Streamers extends StatelessWidget {
   Streamers(_homeScreenState) {
     this._homeScreenState = _homeScreenState;
   }
+
   @override
   Widget build(BuildContext context) {
     return new Container(

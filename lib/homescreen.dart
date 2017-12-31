@@ -11,13 +11,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  void onGaymerSubmitted(String text) {
-    debugPrint('onAddGaymerInputChanged $text');
-    //TODO: call Firebase
-  }
-
   @override
   Widget build(BuildContext context) {
-    return new AppTabs(this);
+    return new AppTabs();
   }
 }

@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "372385646334",
+    "firebase_url": "https://gaymerbears-52f4d.firebaseio.com",
+    "project_id": "gaymerbears-52f4d",
+    "storage_bucket": "gaymerbears-52f4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:372385646334:android:539aede8f0dce24f",
+        "android_client_info": {
+          "package_name": "com.watsonlogic.gaymerstreams"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "372385646334-62j1vmrt73fgaoc2e612kiibb4d4qhe5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.watsonlogic.gaymerstreams",
+            "certificate_hash": "efcb8bf92b3f072dae793595e4209697e3365775"
+          }
+        },
+        {
+          "client_id": "372385646334-613aufp44cl1g0phbjkc8d94sito9chu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXPXTUDZwPqR3PAGuEWur3gduH34tasXc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "372385646334-tejtv0n1ntseug53dei31kuepq1qkh6e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.watsonlogic.gaymerstreams"
+              }
+            },
+            {
+              "client_id": "372385646334-613aufp44cl1g0phbjkc8d94sito9chu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

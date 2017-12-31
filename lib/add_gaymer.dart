@@ -2,32 +2,28 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AddGaymer extends StatefulWidget {
-  var _homeScreenState;
+  final parentState;
 
-  AddGaymer(_homeScreenState) {
-    this._homeScreenState = _homeScreenState;
-  }
+  AddGaymer({this.parentState});
 
   @override
-  _AddGaymerState createState() => new _AddGaymerState(_homeScreenState);
+  _AddGaymerState createState() => new _AddGaymerState();
 }
 
 class _AddGaymerState extends State<AddGaymer> {
-  var _homeScreenState;
   final TextEditingController _textController = new TextEditingController();
   bool _isComposing = false;
 
-  _AddGaymerState(_homeScreenState) {
-    this._homeScreenState = _homeScreenState;
-  }
-
-  void _handleSubmitted(String text) {
-    _homeScreenState.onGaymerSubmitted(text); //pass text to parent state
+  void _handleSubmitted(BuildContext context, String text) {
     _textController.clear();
+    FocusScope.of(context).requestFocus(new FocusNode());
+
     setState(() {
       //new
       _isComposing = false; //new
     });
+
+    widget.parentState.onGaymerSubmitted(context, text);
   }
 
   @override
@@ -49,7 +45,7 @@ class _AddGaymerState extends State<AddGaymer> {
                         _isComposing = text.length > 0;
                       });
                     },
-                    onSubmitted: _handleSubmitted,
+                    onSubmitted: (text) => _handleSubmitted(context, text),
                     decoration: new InputDecoration(
                         labelText: 'Know of a Twitch Gaymer?',
                         hintText: 'Enter a Twitch Username'),
@@ -62,14 +58,16 @@ class _AddGaymerState extends State<AddGaymer> {
                           //new
                           child: new Text('Submit'),
                           onPressed: _isComposing
-                              ? () => _handleSubmitted(_textController.text)
+                              ? () => _handleSubmitted(
+                                  context, _textController.text)
                               : null,
                         )
                       : new IconButton(
                           alignment: Alignment.bottomCenter,
                           icon: new Icon(Icons.send),
                           onPressed: _isComposing
-                              ? () => _handleSubmitted(_textController.text)
+                              ? () => _handleSubmitted(
+                                  context, _textController.text)
                               : null,
                         ),
                 ),
