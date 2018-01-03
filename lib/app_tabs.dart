@@ -193,7 +193,7 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
           new GameItem(
               name: 'All Games',
               streamerCount:
-                  liveStreamItems.length == null ? 0 : liveStreamItems.length));
+                  liveStreamItems == null ? 0 : liveStreamItems.length));
 
       this.setState(() {
         this.gameItems = gameItems;

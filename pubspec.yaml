@@ -4,6 +4,7 @@ description: Find your favorite LGBT Twitch streamers.
 dependencies:
   flutter:
     sdk: flutter
+  firebase:
   firebase_analytics: 0.0.4
   firebase_database: 0.0.12
   cupertino_icons: ^0.1.0
