@@ -5,5 +5,7 @@ class Game {
 
   Game({this.name, this.selected});
 
-  Game.fromSnapshot(Map map) : name = map['name'];
+  Game.fromSnapshot(Map map)
+      : name = map['name'],
+        selected = false;
 }

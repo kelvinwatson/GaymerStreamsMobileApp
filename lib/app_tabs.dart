@@ -5,7 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/services/http_client.dart';
+import 'package:flutter/services.dart';
 import 'package:gaymerstreams/add_gaymer.dart';
 import 'package:gaymerstreams/game.dart';
 import 'package:gaymerstreams/games.dart';
@@ -92,7 +92,7 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
     return gridItems;
   }
 
-  Future<List<String>> _setGetGaymersListener() async {
+  _setGetGaymersListener() async {
     gaymersRef.onValue.listen(_deserializeGaymersToList,
         onError: _handleGetGaymersError, onDone: _handleGetGaymersDone);
   }
@@ -142,7 +142,7 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
   ///
   /// GAMES
   ///
-  List<GameItem> _setGetGamesListener() {
+  _setGetGamesListener() {
     gamesRef.onValue.listen(_deserializeGamesToList,
         onError: _handleGetGamesError, onDone: _handleGetGamesDone);
   }
@@ -167,11 +167,9 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
       List<Game> gamesList, List<StreamItem> liveStreamItems) {
     List<GameItem> gameItems = new List<GameItem>();
     if (gamesList != null && gamesList.length > 0) {
+      int streamerCount = 0;
       for (var game in gamesList) {
-        GameItem gameItem = new GameItem();
-        gameItem.name = game.name;
-
-        int streamerCount = 0;
+        streamerCount = 0;
         if (liveStreamItems != null) {
           for (var liveStream in liveStreamItems) {
             if (game.name == liveStream.gameName) {
@@ -180,7 +178,8 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
           }
         }
 
-        gameItem.streamerCount = streamerCount;
+        GameItem gameItem =
+            new GameItem(name: game.name, streamerCount: streamerCount);
         gameItems.add(gameItem);
       }
 
@@ -189,7 +188,10 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
 
       gameItems.sort((a, b) => b.streamerCount.compareTo(a.streamerCount));
 
-      gameItems.insert(0, new GameItem(name: 'All Games'));
+      gameItems.insert(
+          0,
+          new GameItem(
+              name: 'All Games', streamerCount: liveStreamItems.length));
 
       this.setState(() {
         this.gameItems = gameItems;
@@ -267,8 +269,9 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
       child: new Streams(
           parentState: this,
           gameName: selectedGame == null ? 'All Games' : selectedGame,
-          allLiveStreamItems: this.allLiveStreamItems,
-          filteredLiveStreamItems: this.filteredLiveStreamItems),
+          liveStreamItems: allLiveStreamItems == null
+              ? filteredLiveStreamItems
+              : allLiveStreamItems),
     );
   }
 
@@ -315,7 +318,7 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
     });
   }
 
-  VoidCallback tabChangeCallbackAndroid() {
+  tabChangeCallbackAndroid() {
     setState(() {
       _tabIndex = _tabController.index;
     });

@@ -7,14 +7,7 @@ class StreamItem {
   final String displayName;
   final String gameName;
   final String caption;
-  final int numViewers;
-
-  StreamItem(
-      {this.imageSrc,
-      this.displayName,
-      this.gameName,
-      this.caption,
-      this.numViewers});
+  int numViewers;
 
   StreamItem.fromTwitchApi(Map map)
       : imageSrc = map['preview']['medium'],
@@ -26,21 +19,12 @@ class StreamItem {
 class Streams extends StatelessWidget {
   final parentState;
   final String gameName;
-
-  final List<StreamItem> allLiveStreamItems;
-  final List<StreamItem> filteredLiveStreamItems;
-
-  List<StreamItem> liveStreamItems;
+  final List<StreamItem> liveStreamItems;
 
   Streams(
       {this.parentState,
       this.gameName,
-      this.allLiveStreamItems,
-      this.filteredLiveStreamItems}) {
-    liveStreamItems = allLiveStreamItems == null
-        ? filteredLiveStreamItems
-        : allLiveStreamItems;
-  }
+this.liveStreamItems});
 
   _launchStream(String suffix) {
     launch('https://twitch.tv/$suffix');
