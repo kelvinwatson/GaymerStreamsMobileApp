@@ -19,9 +19,9 @@
       <sourceFolder url="file://$MODULE_DIR$/android/app/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/android/gen" isTestSource="false" generated="true" />
     </content>
+    <orderEntry type="library" exported="" name="Flutter for Android" level="project" />
     <orderEntry type="jdk" jdkName="Android API 27 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="Flutter for Android" level="project" />
-    <orderEntry type="module" module-name="gaymerstreams" exported="" />
+    <orderEntry type="module" module-name="gaymerstreams" />
   </component>
 </module>

@@ -21,10 +21,7 @@ class Streams extends StatelessWidget {
   final String gameName;
   final List<StreamItem> liveStreamItems;
 
-  Streams(
-      {this.parentState,
-      this.gameName,
-this.liveStreamItems});
+  Streams({this.parentState, this.gameName, this.liveStreamItems});
 
   _launchStream(String suffix) {
     launch('https://twitch.tv/$suffix');
@@ -75,6 +72,18 @@ this.liveStreamItems});
             new Padding(
                 padding: new EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 20.0),
                 child: new Text('Loading LGBT Twitch Streams')),
+          ]));
+    } else if (liveStreamItems.length == 0) {
+      return new Center(
+          child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+            new IconButton(
+                onPressed: () => parentState.handleRefresh(context, true),
+                icon: new Icon(Icons.refresh)),
+            new Padding(
+                padding: new EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 20.0),
+                child: new Text('No live streams at the moment.')),
           ]));
     } else {
       final Orientation orientation = MediaQuery.of(context).orientation;

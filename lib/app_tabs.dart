@@ -191,7 +191,9 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
       gameItems.insert(
           0,
           new GameItem(
-              name: 'All Games', streamerCount: liveStreamItems.length));
+              name: 'All Games',
+              streamerCount:
+                  liveStreamItems.length == null ? 0 : liveStreamItems.length));
 
       this.setState(() {
         this.gameItems = gameItems;
@@ -200,7 +202,6 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
   }
 
   Future<Null> onGameSelected(String game) async {
-    debugPrint('onGameSelected $game');
     if (game == 'All Games') {
       game = null;
     }
