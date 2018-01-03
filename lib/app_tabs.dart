@@ -216,22 +216,19 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
         .then((response) {
       List<Object> users = JSON.decode(response.body)['users'];
       if (users == null || users.length == 0) {
-        Scaffold.of(context).showSnackBar(new SnackBar(
-              content: new Text("$twitchName does not exist."),
-            ));
+        _showSnackbar(context, 'Sorry, $twitchName is not a Twitch user.');
       } else {
         //user found in Twitch API, see if already added
         Map<String, String> user = users[0];
         bool exists = false;
         for (var gaymer in gaymersList) {
-          if (gaymer.gaymerName == user['display_name']) {
+          if (gaymer.gaymerName.toLowerCase() ==
+              user['display_name'].toLowerCase()) {
             exists = true;
           }
         }
         if (exists) {
-          Scaffold.of(context).showSnackBar(new SnackBar(
-                content: new Text("$twitchName already added."),
-              ));
+          _showSnackbar(context, '$twitchName has already been added.');
         } else {
           String writeKey = user['display_name'].toLowerCase() + user['_id'];
           gaymersRef.child(writeKey).set({
@@ -239,21 +236,16 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
             'gaymerName': user['display_name'],
             'streamPlatform': 'Twitch'
           }).then((value) {
-            Scaffold.of(context).showSnackBar(new SnackBar(
-                  content: new Text("$twitchName added successfully!"),
-                ));
+            _showSnackbar(context, '$twitchName added successfully!');
           }).catchError((err) {
-            Scaffold.of(context).showSnackBar(new SnackBar(
-                  content:
-                      new Text("Unable to add $twitchName. Try again later."),
-                ));
+            _showSnackbar(
+                context, 'Unable to add $twitchName. Try again later.');
           });
         }
       }
     }).catchError((err) {
-      Scaffold.of(context).showSnackBar(new SnackBar(
-            content: new Text("That user doesn't exist, sorry"),
-          ));
+      _showSnackbar(
+          context, 'Unable to add $twitchName at this time. Try again later.');
     });
   }
 
@@ -323,19 +315,26 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
     });
   }
 
+  VoidCallback tabChangeCallbackAndroid() {
+    setState(() {
+      _tabIndex = _tabController.index;
+    });
+    FocusScope.of(context).requestFocus(new FocusNode()); //close keyboard
+  }
+
+  _showSnackbar(BuildContext context, String message) {
+    Scaffold.of(context).showSnackBar(new SnackBar(
+          content: new Text(message),
+          duration: const Duration(milliseconds: 3500),
+        ));
+  }
+
   @override
   void initState() {
     super.initState();
     _tabController = new TabController(vsync: this, length: appTabs.length);
     _tabController.addListener(tabChangeCallbackAndroid);
     _tabIndex = 0;
-  }
-
-  VoidCallback tabChangeCallbackAndroid() {
-    setState(() {
-      _tabIndex = _tabController.index;
-    });
-    FocusScope.of(context).requestFocus(new FocusNode()); //close keyboard
   }
 
   @override
