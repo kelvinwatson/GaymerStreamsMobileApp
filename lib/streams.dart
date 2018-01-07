@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gaymerstreams/analytics_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class StreamItem {
@@ -20,10 +21,15 @@ class Streams extends StatelessWidget {
   final parentState;
   final String gameName;
   final List<StreamItem> liveStreamItems;
+  final AnalyticsUtil analyticsUtil = new AnalyticsUtil();
 
   Streams({this.parentState, this.gameName, this.liveStreamItems});
 
   _launchStream(String suffix) {
+    analyticsUtil.trackEvent(eventName: 'launch_stream', parameters: {
+      'twitchName': suffix,
+    });
+
     launch('https://twitch.tv/$suffix');
   }
 

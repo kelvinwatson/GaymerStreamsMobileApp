@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gaymerstreams/add_gaymer.dart';
+import 'package:gaymerstreams/analytics_util.dart';
 import 'package:gaymerstreams/game.dart';
 import 'package:gaymerstreams/games.dart';
 import 'package:gaymerstreams/gaymer.dart';
@@ -49,6 +50,7 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
     'Accept': 'application/vnd.twitchtv.v5+json',
     'Client-ID': '4ab0ef4dut3ngrm4ercp9ue54k58d5'
   };
+  final AnalyticsUtil analyticsUtil = new AnalyticsUtil();
 
   _AppTabsState() {
     _setGetGaymersListener();
@@ -155,8 +157,12 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
     List<Game> tmp = new List<Game>();
     event.snapshot.value.forEach((k, v) {
       //snapshot.value is a map
+      if (v['name'] == 'All Games') {
+        return;
+      }
       tmp.add(new Game.fromSnapshot(v));
     });
+
     setState(() {
       gamesList = tmp;
     });
@@ -202,6 +208,10 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
   }
 
   Future<Null> onGameSelected(String game) async {
+    analyticsUtil.trackEvent(eventName: 'game_selected', parameters: {
+      'game': game,
+    });
+
     if (game == 'All Games') {
       game = null;
     }
@@ -213,6 +223,9 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
   /// ADD
   ///
   void onGaymerSubmitted(BuildContext context, String twitchName) {
+    analyticsUtil.trackEvent(eventName: 'gaymer_submitted', parameters: {
+      'twitchName': twitchName,
+    });
     createHttpClient()
         .get('https://api.twitch.tv/kraken/users?login=$twitchName',
             headers: twitchApiHeaders)
@@ -299,6 +312,10 @@ class _AppTabsState extends State<AppTabs> with SingleTickerProviderStateMixin {
   }
 
   Future<Null> handleRefresh(context, fromFab) async {
+    analyticsUtil.trackEvent(eventName: 'refresh', parameters: {
+      'fromFab': fromFab,
+    });
+
     if (fromFab) {
       refreshIndicatorKey.currentState.show();
     }
